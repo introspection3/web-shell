@@ -80,6 +80,7 @@ func LoginHandler(username, password string) http.Handler {
 		sentUser, sentPass := r.URL.Query().Get("username"), r.URL.Query().Get("password")
 
 		if username != sentUser || password != sentPass {
+			fmt.Println("--------------", username, password, sentUser, sentPass, "---")
 			w.Write([]byte("{\"code\":1,\"msg\":\"Login incorrect!\"}"))
 			return
 		}
