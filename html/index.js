@@ -94,25 +94,26 @@ window.WebShell = function (dom) {
                 } else {
                     secret = data.secret;
                     isInput = true;
-                    term.write("Web Shell login:");
+                    term.write("user:");
                 }
             });
         })();
 
         var doLogin = function () {
             isInput = false;
-            GetByAjax("login?username=" + username + "&password=" + password, function (data) {
+            var token = md5(secret + md5(username + secret + password) + secret);
+            GetByAjax("login?token=" + token, function (data) {
                 tag = 1;
                 username = "";
                 password = "";
                 if (data.code == 0) {
                     isInput = false;
-                    sessionStorage.setItem("web-shell-token", data.path);
+                    sessionStorage.setItem("web-shell-token", token);
                     onLoginSuccess(data.path);
                 } else {
                     isInput = true;
                     term.writeln(data.msg);
-                    term.write("\nWeb Shell login:");
+                    term.write("\nuser:");
                 }
             });
         }
@@ -125,14 +126,14 @@ window.WebShell = function (dom) {
                 term.writeln("");
                 if (tag == 1) {
                     tag++;
-                    term.write("Password:");
+                    term.write("password:");
                 } else {
                     doLogin();
                 }
             } else if (data.charCodeAt(0) == 127) {
                 if (tag == 1) {
                     username = username.substr(0, username.length - 1);
-                    term.write(BackSpacePrev + "Web Shell login:" + username + BackSpaceNext);
+                    term.write(BackSpacePrev + "user:" + username + BackSpaceNext);
                 } else {
                     password = password.substr(0, password.length - 1);
                 }

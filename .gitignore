@@ -42,3 +42,6 @@ static_gen.go
 *.key
 *.pem
 *.public
+amd-webshell
+arm-webshell
+mac-webshell
