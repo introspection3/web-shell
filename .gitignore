@@ -8,7 +8,7 @@ pkg/
 test/
 build/
 target/
-
+web-shell-make*
 # Binaries for programs and plugins
 *.exe
 *.exe~
